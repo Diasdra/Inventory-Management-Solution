@@ -1,0 +1,12 @@
+version: 1
+return_car:
+  url: http://storage:8090/return_car
+rent_car:
+  url: http://localhost:8090/rent_car
+events:
+  hostname: kafka
+  port: 9092
+  topic: events
+kafka:
+  max_retries: 5
+  sleep_time: 5

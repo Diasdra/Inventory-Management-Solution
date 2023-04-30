@@ -1,0 +1,107 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://localhost:8080'
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /return_car:
+    post:
+      tags:
+        - admins
+      summary: returns a car
+      operationId: app.return_car
+      description: return a car to the store
+      responses:
+        '201':
+          description: car returned to store
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/return_car'
+        description: Return a car
+        
+  /rent_car:
+    post:
+      tags:
+        - admins
+      summary: Rent a Car
+      operationId: app.rent_car
+      description: rent a car from inventory
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rent_car'
+        description: Inventory item to add
+
+  /health: 
+    get:
+      summary: gets health status
+      operationId: app.get_health
+      responses:
+        '200':
+          description: its alive
+components:
+  schemas:
+    return_car:
+      type: object
+      required:
+        - car_id
+        - kilometers
+        - gas_used
+        - cost
+        - rent_duration
+      properties:
+        car_id:
+          type: integer
+        kilometers:
+          type: integer
+        gas_used:
+          type: integer
+        cost:
+          type: integer
+        rent_duration:
+          type: integer
+    rent_car:
+      type: object
+      required:
+        - car_id
+        - car_type
+        - location
+        - mileage
+        - passenger_limit
+      properties:
+        car_id:
+          type: integer
+        car_type:
+          type: string
+        location:
+          type: string
+        mileage:
+          type: integer
+        passenger_limit:
+          type: integer

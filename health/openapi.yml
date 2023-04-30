@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  description: This is a stats API
+  version: "1.0.0"
+  title: Stats API
+  
+paths:
+  /health:
+    get:
+      summary: health check on services
+      operationId: app.health
+      description: health check on services
+      responses:
+        '200':
+          description: service is running
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/health'
+
+components:
+  schemas:
+    health:
+      type: object
+      required:
+        - storage
+        - receiver
+        - processing
+        - audit
+        - last_update
+      properties:
+        processing:
+          type: string
+        storage:
+          type: string
+        receiver:
+          type: string
+        audit:
+          type: string
+        last_update:
+          format: date-time
+          example: "2016-08-29T09:12:33.001Z"

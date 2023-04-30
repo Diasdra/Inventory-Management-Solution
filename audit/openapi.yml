@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  description: This API provides audit info
+  version: "1.0.0"
+  title: Audit API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /health: 
+    get:
+      summary: gets health status
+      operationId: app.get_health
+      responses:
+        '200':
+          description: its alive
+  /return_car:
+    get:
+      summary: gets a returns car application
+      operationId: app.get_return_car_application
+      description: gets return car application from event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the return car app at the index
+          schema:
+            type: integer
+            example: 100
+      responses:
+        '200':
+          description: successfully gets return car event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/return_car'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+        
+  /rent_car:
+    get:
+      summary: gets a return car application
+      operationId: app.get_rent_car_application
+      description: gets rent car application from event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the rent car app at the index
+          schema:
+            type: integer
+            example: 100
+      responses:
+        '200':
+          description: successfully gets rent car event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/rent_car'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+
+components:
+  schemas:
+    return_car:
+      type: object
+      required:
+        - car_id
+        - kilometers
+        - gas_used
+        - cost
+        - rent_duration
+      properties:
+        car_id:
+          type: integer
+        kilometers:
+          type: integer
+        gas_used:
+          type: integer
+        price:
+          type: integer
+        rent_duration:
+          type: integer
+    rent_car:
+      type: object
+      required:
+        - car_id
+        - car_type
+        - location
+        - mileage
+        - passenger_limit
+      properties:
+        car_id:
+          type: integer
+        car_type:
+          type: string
+        location:
+          type: string
+        mileage:
+          type: integer
+        passenger_limit:
+          type: integer
