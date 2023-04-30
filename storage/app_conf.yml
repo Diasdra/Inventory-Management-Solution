@@ -1,0 +1,14 @@
+version: 1
+datastore:
+  user: mysql_user
+  password: 
+  hostname: db
+  port: 3306
+  db: inventory
+events:
+  hostname: kafka
+  port: 9092
+  topic: events
+kafka:
+  max_retries: 10
+  sleep_time: 5

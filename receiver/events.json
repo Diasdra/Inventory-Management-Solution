@@ -1,0 +1,88 @@
+[
+    {
+        "car_id": 3,
+        "kilometers": 30000,
+        "gas_used": 20,
+        "cost": 200,
+        "rent_duration": 300,
+        "datetime": "2022-09-22 10:15:46"
+},
+    {
+        "carId": "Honda",
+        "carType": "SUV",
+        "location": "home",
+        "mileage": 200,
+        "passengerLimit": 4,
+        "returnDate": "2012-04-23T18:25:43.511Z",
+        "datetime": "2022-09-22 10:15:46"
+    },
+    {
+        "carId": "Honda",
+        "kilometers": 30000,
+        "gasUsed": 20,
+        "cost": 200,
+        "rentDuration": 300,
+        "datetime": "2022-09-22 10:15:46"
+    },
+    {
+        "carId": "Honda",
+        "carType": "SUV",
+        "location": "home",
+        "mileage": 200,
+        "passengerLimit": 4,
+        "returnDate": "2012-04-23T18:25:43.511Z",
+        "datetime": "2022-09-22 10:15:46"
+    },
+    {
+        "carId": "Honda",
+        "kilometers": 30000,
+        "gasUsed": 20,
+        "cost": 200,
+        "rentDuration": 300,
+        "datetime": "2022-09-22 10:15:46"
+    },
+    {
+        "carId": "Honda",
+        "carType": "SUV",
+        "location": "home",
+        "mileage": 200,
+        "passengerLimit": 4,
+        "returnDate": "2012-04-23T18:25:43.511Z",
+        "datetime": "2022-09-22 10:15:46"
+    },
+    {
+        "carId": "Honda",
+        "carType": "SUV",
+        "location": "home",
+        "mileage": 200,
+        "passengerLimit": 4,
+        "returnDate": "2012-04-23T18:25:43.511Z",
+        "datetime": "2022-09-22 10:15:46"
+    },
+    {
+        "carId": "Honda",
+        "carType": "SUV",
+        "location": "home",
+        "mileage": 200,
+        "passengerLimit": 4,
+        "returnDate": "2012-04-23T18:25:43.511Z",
+        "datetime": "2022-09-22 10:15:46"
+    },
+    {
+        "carId": "Honda",
+        "carType": "SUV",
+        "location": "home",
+        "mileage": 200,
+        "passengerLimit": 4,
+        "returnDate": "2012-04-23T18:25:43.511Z",
+        "datetime": "2022-09-22 10:15:46"
+    },
+    {
+        "carId": "Honda",
+        "kilometers": 30000,
+        "gasUsed": 20,
+        "cost": 200,
+        "rentDuration": 300,
+        "datetime": "2022-09-22 10:15:46"
+    }
+]

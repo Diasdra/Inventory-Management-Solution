@@ -1,0 +1,9 @@
+version: 1
+datastore:
+  filename: stats.sqlite
+scheduler:
+  period_sec: 5
+get_car_rentals:
+  url: http://storage:8090/get_car_rentals
+get_car_returns:
+  url: http://storage:8090/get_car_returns
