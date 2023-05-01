@@ -85,7 +85,7 @@ def populate_stats():
     current_timestamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     
-    get_car_rentals = requests.get(app_config["get_car_rental"]["url"], 
+    get_car_rentals = requests.get(app_config["get_car_rentals"]["url"], 
                                     params={"start_timestamp": prev_time, "end_timestamp": current_timestamp},
                                     headers={'Content-Type': 'application/json'})
     get_car_returns = requests.get(app_config["get_car_returns"]["url"], 
