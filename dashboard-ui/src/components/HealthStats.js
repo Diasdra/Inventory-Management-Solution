@@ -32,7 +32,7 @@ export default function HealthStats() {
         return (
             <div>
                 <h1>Latest Health</h1>
-                <table className={"HealthTable"}>
+                <table className={"StatsTable"}>
                     <tbody>
                         <tr>
                             <th>Health</th>

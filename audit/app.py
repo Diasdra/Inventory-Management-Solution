@@ -8,6 +8,7 @@ import logging
 from logging import config
 
 from pykafka import KafkaClient
+from pykafka.common import OffsetType
 from flask_cors import CORS, cross_origin
 
 
@@ -21,15 +22,10 @@ def get_return_car_application(index):
     client = KafkaClient(hosts=hostname)
     topic = client.topics[str.encode(app_config["events"]["topic"])]
     
-    # Here we reset the offset on start so that we retrieve
-    # messages at the beginning of the message queue.
-    # To prevent the for loop from blocking, we set the timeout to
-    # 100ms. There is a risk that this loop never stops if the
-    # index is large and messages are constantly being received!
-    
-    consumer = topic.get_simple_consumer(reset_offset_on_start=True, consumer_timeout_ms=1000)
-    
-    logger.info(f"Retriving expense at index {index}")
+    consumer = topic.get_simple_consumer(reset_offset_on_start=True,
+                                         consumer_timeout_ms=1000)
+
+    logger.info(f"Retriving application at index {index}")
     try:
         pos = 0
         for msg in consumer:
@@ -44,7 +40,7 @@ def get_return_car_application(index):
     except:
         logger.error("No more messages found")
         
-    logger.error(f"could not find expense at index {index}")
+    logger.error(f"could not find application at index {index}")
     return { "message": "Not Found"}, 404
 
 def get_rent_car_application(index):
@@ -54,7 +50,9 @@ def get_rent_car_application(index):
     client = KafkaClient(hosts=hostname)
     topic = client.topics[str.encode(app_config["events"]["topic"])]
     
-    consumer = topic.get_simple_consumer(reset_offset_on_start=True, consumer_timeout_ms=1000)
+    consumer = topic.get_simple_consumer(reset_offset_on_start=True,
+                                         consumer_timeout_ms=1000)
+
     
     logger.info("Retrieving rent car at index %d" % index)
     try:
@@ -105,4 +103,4 @@ logger.info(f"Log Conf File: {log_conf_file}")
 
 
 if __name__ == "__main__":
-    app.run(port=8110)
+    app.run(port=8110, use_reloader=False)

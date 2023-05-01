@@ -40,6 +40,9 @@ def create_database():
 
     logger.info("Database created.")
 
+def get_health():
+    return 200
+
 def get_stats():
     """ Receives a stats req """
     
@@ -47,7 +50,6 @@ def get_stats():
 
     session = DB_SESSION()
     results = session.query(Stats).order_by(Stats.last_updated.desc()).first()
-    session.close()
 
     if not results:
         logger.error(f'Statistics do not exist')
@@ -57,6 +59,7 @@ def get_stats():
     
     logger.debug(data.items)
     logger.info("request has been completed")
+    session.close()
     
     return data, 200
 
@@ -85,12 +88,8 @@ def populate_stats():
     current_timestamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     
-    get_car_rentals = requests.get(app_config["get_car_rentals"]["url"], 
-                                    params={"start_timestamp": prev_time, "end_timestamp": current_timestamp},
-                                    headers={'Content-Type': 'application/json'})
-    get_car_returns = requests.get(app_config["get_car_returns"]["url"], 
-                                    params={"start_timestamp": prev_time, "end_timestamp": current_timestamp},
-                                    headers={'Content-Type': 'application/json'})
+    get_car_rentals = requests.get(app_config["get_car_rentals"]["url"], params={"start_timestamp": prev_time, "end_timestamp": current_timestamp}, headers={'Content-Type': 'application/json'})
+    get_car_returns = requests.get(app_config["get_car_returns"]["url"], params={"start_timestamp": prev_time, "end_timestamp": current_timestamp}, headers={'Content-Type': 'application/json'})
     
     
     if(get_car_returns.status_code == 200):
@@ -147,7 +146,6 @@ def populate_stats():
     session.add(stats)
 
     session.commit()
-    session.close()
 
     msg = f"""  
     Updated stats: 
@@ -159,6 +157,8 @@ def populate_stats():
     Trace ID: {trace_id}
     """
 
+    session.close()
+
     logger.debug(msg)
     logger.info("Periodic Processing completed")
 
@@ -168,10 +168,6 @@ def init_scheduler():
                     'interval', 
                     seconds=app_config['scheduler']['period_sec'])
     sched.start()
-
-def get_health():
-
-    return 200
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 

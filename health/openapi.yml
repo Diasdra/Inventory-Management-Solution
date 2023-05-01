@@ -27,11 +27,11 @@ components:
       required:
         - storage
         - receiver
-        - processing
+        - processor
         - audit
         - last_update
       properties:
-        processing:
+        processor:
           type: string
         storage:
           type: string

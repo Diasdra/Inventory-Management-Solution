@@ -6,7 +6,7 @@ storage_health:
   url: http://storage:8090/health
   service: storage
 processor_health:
-  url: http://processor:8100/health
+  url: http://localhost:8100/health
   service: processor
 audit_health:
   url: http://audit:8110/health

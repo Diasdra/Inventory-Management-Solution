@@ -9,9 +9,7 @@ RUN apt-get update -y && \
 COPY ./requirements.txt /storage/requirements.txt
 
 WORKDIR /storage
-
 RUN pip3 install -r requirements.txt
-
 COPY . /storage
 
 ENTRYPOINT [ "python3" ]

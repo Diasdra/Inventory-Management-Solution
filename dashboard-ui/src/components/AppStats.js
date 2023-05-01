@@ -8,7 +8,7 @@ export default function AppStats() {
 
 	const getStats = () => {
 	
-        fetch(`http://localhost:8100/stats`)
+        fetch(`http://localhost:8100/get_stats`)
             .then(res => res.json())
             .then((result)=>{
 				console.log("Received Stats")
@@ -43,10 +43,10 @@ export default function AppStats() {
 							<td># Total Returns: {stats['num_car_returns']}</td>
 						</tr>
 						<tr>
-                            <td colspan="2">Max Gas Used: {stats['max_gas_used']}</td>
+                            <td colSpan="2">Max Gas Used: {stats['max_gas_used']}</td>
 						</tr>
 						<tr>
-                            <td colspan="2">Max Passenger Limit: {stats['max_passenger_limit']}</td>
+                            <td colSpan="2">Max Passenger Limit: {stats['max_passenger_limit']}</td>
 						</tr>
 					</tbody>
                 </table>

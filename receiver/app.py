@@ -18,8 +18,9 @@ def return_car(body):
 
     logger.info('Received return car event with trace id' + trace)
 
+    client = KafkaClient(hosts=hostname)
+    topic = client.topics[str.encode(app_config['events']['topic'])]
     producer = topic.get_sync_producer()
-    #res = requests.post(app_config['return_car']['url'], headers={'Content-Type' : 'application/json'}, json=body)
     msg = { "type": "return_car", 
             "datetime" : datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), 
             "payload": body }
@@ -27,7 +28,7 @@ def return_car(body):
     msg_str = json.dumps(msg)
     producer.produce(msg_str.encode('utf-8'))
             
-    logger.info('Returned return car event response(Id: ' + trace + ') with status' + str(res.status_code))
+    logger.info('Returned return car event response(Id: ' + trace )
 
     return body, 201
 
@@ -37,8 +38,9 @@ def rent_car(body):
 
     logger.info('Received rentcar even with trace id' + trace)
 
+    client = KafkaClient(hosts=hostname)
+    topic = client.topics[str.encode(app_config['events']['topic'])]
     producer = topic.get_sync_producer()
-    #res = requests.post(app_config['rent_car']['url'], headers={'Content-Type' : 'application/json'}, data=json.dumps(body))
     msg = { "type": "rent_car", 
             "datetime" :datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), 
             "payload": body }
@@ -46,7 +48,7 @@ def rent_car(body):
     msg_str = json.dumps(msg)
     producer.produce(msg_str.encode('utf-8'))
 
-    logger.info('Returned rent car event response(Id: ' + trace + ') with status' + str(res.status_code))
+    logger.info('Returned rent car event response(Id: ' + trace )
 
     return body, 201
 
@@ -98,4 +100,4 @@ while retry < max_retry:
 
 
 if __name__ == "__main__":
-    app.run(port=8080)
+    app.run(port=8080, use_reloader=False)

@@ -3,4 +3,4 @@ swagger-ui-bundle
 SQLAlchemy
 mysql-connector-python
 pymysql
-pykafka
+pykafka==2.8.0

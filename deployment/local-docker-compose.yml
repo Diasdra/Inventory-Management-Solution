@@ -7,6 +7,7 @@ services:
     hostname: zookeeper
     volumes:
       - /home/ubuntu/zookeeper/data:/opt/zookeeper-3.4.13/data
+  
   kafka:
     image: wurstmeister/kafka
     command: [start-kafka.sh]
@@ -15,6 +16,7 @@ services:
     hostname: kafka
     environment:
       KAFKA_CREATE_TOPICS: "events:1:1" # topic:partition:replicas
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_LISTENERS: INSIDE://:29092,OUTSIDE://:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:29092,OUTSIDE://localhost:9092
@@ -27,19 +29,19 @@ services:
       - /home/ubuntu/kafka:/kafka/kafka-logs
     depends_on:
       - "zookeeper"
+  
 
   db:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: 'events'
+      MYSQL_DATABASE: 'inventory'
       # So you don't have to use root, but you can if you like
-      MYSQL_USER: 'mysql_user'
+      MYSQL_USER: 'user'
       # You can use whatever password you like
-      MYSQL_PASSWORD: ''
+      MYSQL_PASSWORD: 'password'
       # Password for root access
-      MYSQL_ROOT_PASSWORD: ''
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: 'password'
     ports:
     # <Port exposed> : < MySQL Port running inside container>
       - '3306:3306'
@@ -49,7 +51,7 @@ services:
     # Where our data will be persisted
     volumes:
       - my-db:/var/lib/mysql
-
+  
 
   receiver:
     depends_on:
@@ -63,7 +65,6 @@ services:
       - /home/ubuntu/config/receiver:/config
       - /home/ubuntu/logs:/logs
 
-
   storage:
     depends_on:
       - "kafka"
@@ -75,14 +76,12 @@ services:
       - 8090
     volumes:
       - /home/ubuntu/config/storage:/config
-      - /home/ubuntu/logs:/logs
-
+      - /home/ubuntu/logs:/log
 
   processor:
     depends_on:
       - "storage"
     image: processor:latest
-    network_mode: "host"
     ports:
       - 8100:8100
     expose:
@@ -92,6 +91,7 @@ services:
       - /home/ubuntu/logs:/logs
       - processing-db:/data
 
+      
   audit:
     depends_on:
       - "kafka"
@@ -102,8 +102,7 @@ services:
       - 8110
     volumes:
       - /home/ubuntu/config/audit:/config
-      - /home/ubuntu/logs:/logs
-
+      - /home/ubuntu/logs:/log
   dashboard:
     image: dashboard:latest
     ports:
@@ -111,7 +110,6 @@ services:
     depends_on:
       - "processor"
       - "audit"
-
 
   health:
     image: health:latest
@@ -121,7 +119,6 @@ services:
       - health-db:/data
     ports:
       - "8120:8120"
-
 
 # Names our volume
 volumes:

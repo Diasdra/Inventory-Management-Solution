@@ -9,13 +9,6 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 paths:
-  /health: 
-    get:
-      summary: gets health status
-      operationId: app.get_health
-      responses:
-        '200':
-          description: its alive
   /return_car:
     get:
       summary: gets a returns car application
@@ -55,7 +48,6 @@ paths:
                 properties:
                   message: 
                     type: string
-        
   /rent_car:
     get:
       summary: gets a return car application
@@ -95,7 +87,14 @@ paths:
                 properties:
                   message: 
                     type: string
-
+  /health: 
+    get:
+      summary: gets health status
+      operationId: app.get_health
+      responses:
+        '200':
+          description: its alive
+          
 components:
   schemas:
     return_car:

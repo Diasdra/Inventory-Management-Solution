@@ -5,7 +5,7 @@ rent_car:
   url: http://localhost:8090/rent_car
 events:
   hostname: kafka
-  port: 9092
+  port: 29092
   topic: events
 kafka:
   max_retries: 5

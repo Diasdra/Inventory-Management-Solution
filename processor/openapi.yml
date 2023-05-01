@@ -6,7 +6,7 @@ info:
   contact:
     email: you@your-company.com
 paths:
-  /stats:
+  /get_stats:
     get:
       summary: get event stats
       operationId: app.get_stats

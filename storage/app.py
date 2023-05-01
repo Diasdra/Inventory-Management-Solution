@@ -147,6 +147,40 @@ def process_messages():
         # Commit the new message as being read
         consumer.commit_offsets()
 
+def create_database():
+    db_cursor = db_conn.cursor()
+
+    db_cursor.execute('''
+            CREATE TABLE rented_car
+            (id INT NOT NULL AUTO_INCREMENT, 
+            trace_id VARCHAR(200) NOT NULL,
+            car_id INTEGER(250) NOT NULL, 
+            car_type VARCHAR(250) NOT NULL, 
+            location VARCHAR(250) NOT NULL,
+            mileage Integer(200) NOT NULL,
+            passenger_limit Integer(200) NOT NULL,
+            date_created VARCHAR(100) NOT NULL,
+            CONSTRAINT rent_car_pk PRIMARY KEY(id))
+            ''')
+
+
+    db_cursor.execute('''
+            CREATE TABLE returned_car
+            (id INT NOT NULL AUTO_INCREMENT,
+            trace_id VARCHAR(200) NOT NULL, 
+            car_id INTEGER(250) NOT NULL, 
+            kilometers Integer(200) NOT NULL,
+            gas_used Integer(200) NOT NULL,
+            cost Integer(200) NOT NULL,
+            rent_duration Integer(200) NOT NULL,
+            date_created VARCHAR(100) NOT NULL,
+            CONSTRAINT return_car_pk PRIMARY KEY(id))
+            ''')
+
+    db_conn.commit()
+    db_conn.close()
+
+
 def get_health():
     
     return 200
@@ -170,8 +204,9 @@ with open(log_conf_file, 'r') as f:
 
 with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
+    db_config = app_config['datastore']
 
-DB_ENGINE = create_engine(f'mysql+pymysql://{app_config["datastore"]["user"]}:{app_config["datastore"]["password"]}@{app_config["datastore"]["hostname"]}:{app_config["datastore"]["port"]}/{app_config["datastore"]["db"]}')
+DB_ENGINE = create_engine(f"mysql+pymysql://{db_config['user']}:{db_config['password']}@{db_config['hostname']}:{db_config['port']}/{db_config['db']}")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
@@ -184,4 +219,4 @@ if __name__ == "__main__":
     t1 = Thread(target=process_messages)
     t1.setDaemon(True)
     t1.start()
-    app.run(port=8090)
+    app.run(port=8090, use_reloader=False)
